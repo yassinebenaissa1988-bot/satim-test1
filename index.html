@@ -17,14 +17,14 @@
     <script>
         document.getElementById("payButton").addEventListener("click", () => {
             // Appelle ton endpoint Firebase Function pour le paiement (simulé pour l'instant)
-            fetch("https://us-central1-tonprojet.cloudfunctions.net/createSatimPayment", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ adId: "test123", amount: 200, currency: "DZD" })
-            })
-            .then(response => response.json())
-            .then(data => alert("Paiement simulé : " + JSON.stringify(data)))
-            .catch(error => alert("Erreur : " + error));
+          fetch("https://us-central1-carsellapp-d3b2f.cloudfunctions.net/createSatimPayment", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ orderId: "TEST-001", amount: 20000 })
+})
+.then(response => response.json())
+.then(data => alert("Paiement simulé : " + JSON.stringify(data)))
+.catch(error => alert("Erreur : " + error));
         });
     </script>
 </body>
