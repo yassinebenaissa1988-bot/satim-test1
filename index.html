@@ -2,61 +2,59 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Test Bouton Paiement</title>
+    <title>Test Paiement SATIM</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f5f5f5; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
         }
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        button { 
+            padding: 15px 30px; 
+            font-size: 18px; 
+            background-color: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
         }
         button:hover { background-color: #0056b3; }
-        pre {
-            background-color: #eee;
-            padding: 15px;
-            border-radius: 8px;
-            max-width: 600px;
-            overflow-x: auto;
-        }
+        pre { background-color: #eee; padding: 15px; border-radius: 8px; max-width: 600px; overflow-x: auto; }
     </style>
 </head>
 <body>
-    <h1>Test Bouton Paiement</h1>
-    <p>Cliquez sur le bouton pour voir une réponse simulée</p>
+    <h1>Test Paiement SATIM</h1>
+    <p>Cliquez sur le bouton pour simuler un paiement</p>
     <button id="payButton">Payer 300 DZD</button>
     <h3>Réponse :</h3>
     <pre id="response">Aucune réponse pour l’instant</pre>
 
     <script>
-        document.getElementById("payButton").addEventListener("click", async () => {
-            // Simulation d'un appel API (au lieu de SATIM)
-            const simulatedResponse = {
-                success: true,
-                message: "Paiement simulé avec succès ✅",
-                data: {
-                    orderId: "TEST-001",
-                    amount: 300,
-                    currency: "DZD",
-                    transactionId: Math.floor(Math.random() * 1000000)
-                }
-            };
+        const endpoint = "https://us-central1-carsellapp-d3b2f.cloudfunctions.net/createSatimPayment";
 
-            // Affiche la réponse JSON
-            document.getElementById("response").textContent =
-                JSON.stringify(simulatedResponse, null, 2);
+        document.getElementById("payButton").addEventListener("click", async () => {
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        orderId: "TEST-001",
+                        amount: 30000 // 300 DZD en centimes si SATIM attend en centimes
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+
+            } catch (error) {
+                document.getElementById("response").textContent = "Erreur : " + error;
+            }
         });
     </script>
 </body>
 </html>
+
